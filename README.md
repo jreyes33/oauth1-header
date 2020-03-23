@@ -1,5 +1,7 @@
 # oauth1-header
 
+[![Rust CI](https://github.com/jreyes33/oauth1-header/workflows/Rust/badge.svg)](https://github.com/jreyes33/oauth1-header/actions?query=workflow%3ARust)
+
 Generate OAuth 1.0 Authorization headers.
 
 ## License
