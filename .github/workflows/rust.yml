@@ -10,6 +10,6 @@ jobs:
     - name: Check code format
       run: cargo fmt -- --check --verbose
     - name: Run clippy
-      run: cargo clippy --forbid warnings
+      run: cargo clippy -- --forbid warnings
     - name: Run tests
       run: cargo test --verbose
