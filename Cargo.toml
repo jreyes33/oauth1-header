@@ -1,10 +1,16 @@
 [package]
 name = "oauth1-header"
 version = "0.1.0"
-authors = ["Jonathan Reyes <j@jreyes.org>"]
 edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+license = "CC0-1.0"
+readme = "README.md"
+description = "Generate OAuth 1.0 Authorization headers."
+documentation = "https://github.com/jreyes33/oauth1-header"
+homepage = "https://github.com/jreyes33/oauth1-header"
+repository = "https://github.com/jreyes33/oauth1-header"
+authors = ["Jonathan Reyes <j@jreyes.org>"]
+keywords = ["oauth1", "oauth", "authorization", "header"]
+categories = ["authentication", "web-programming"]
 
 [dependencies]
 base64 = "0.12.0"
