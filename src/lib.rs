@@ -5,24 +5,25 @@ use rand::{thread_rng, Rng};
 use sha1::Sha1;
 use std::collections::HashMap;
 use std::fmt;
+use std::hash::BuildHasher;
 use std::time::{SystemTime, UNIX_EPOCH};
 
-pub fn auth(
+pub fn auth<S: BuildHasher>(
     method: &str,
     base_url: &str,
     credentials: &Credentials,
-    params: &HashMap<&str, &str>,
+    params: &HashMap<&str, &str, S>,
 ) -> String {
     let nonce_string: String = thread_rng().sample_iter(Alphanumeric).take(32).collect();
     let oauth_header = OAuthHeader {
-        credentials: credentials,
+        credentials,
         nonce: nonce_string.as_str(),
         signature_method: "HMAC-SHA1",
         timestamp: current_timestamp(),
         version: "1.0",
-        method: method,
-        base_url: base_url,
-        params: params,
+        method,
+        base_url,
+        params,
     };
     oauth_header.to_string()
 }
@@ -34,7 +35,7 @@ pub struct Credentials {
     pub access_token_secret: String,
 }
 
-struct OAuthHeader<'a> {
+struct OAuthHeader<'a, S: BuildHasher> {
     credentials: &'a Credentials,
     nonce: &'a str,
     signature_method: &'a str,
@@ -42,10 +43,10 @@ struct OAuthHeader<'a> {
     version: &'a str,
     method: &'a str,
     base_url: &'a str,
-    params: &'a HashMap<&'a str, &'a str>,
+    params: &'a HashMap<&'a str, &'a str, S>,
 }
 
-impl<'a> OAuthHeader<'a> {
+impl<'a, S: BuildHasher> OAuthHeader<'a, S> {
     fn sign(&self) -> String {
         let signature_base = format!(
             "{}&{}&{}",
@@ -83,7 +84,7 @@ impl<'a> OAuthHeader<'a> {
     }
 }
 
-impl<'a> fmt::Display for OAuthHeader<'a> {
+impl<'a, S: BuildHasher> fmt::Display for OAuthHeader<'a, S> {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         write!(
             formatter,
@@ -104,7 +105,7 @@ impl<'a> fmt::Display for OAuthHeader<'a> {
 fn current_timestamp() -> u64 {
     match SystemTime::now().duration_since(UNIX_EPOCH) {
         Ok(duration) => duration.as_secs(),
-        Err(_) => 1234567890,
+        Err(_) => 1_234_567_890,
     }
 }
 
