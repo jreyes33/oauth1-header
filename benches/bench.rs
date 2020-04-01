@@ -1,19 +1,18 @@
-#![feature(test)]
-extern crate test;
+use criterion::{criterion_group, criterion_main, Criterion};
 
 use oauth1::Token;
 use oauth1_header::http::Method;
 use oauth1_header::Credentials;
 use std::collections::HashMap;
 
-#[bench]
-fn bench_this_crate(b: &mut test::Bencher) {
-    b.iter(|| test_this_crate());
-}
+criterion_group!(benches, bench_crates);
+criterion_main!(benches);
 
-#[bench]
-fn bench_other_crate(b: &mut test::Bencher) {
-    b.iter(|| test_other_crate());
+fn bench_crates(c: &mut Criterion) {
+    let mut group = c.benchmark_group("OAuth 1.0 crates");
+    group.bench_function("oauth1-header", |b| b.iter(test_this_crate));
+    group.bench_function("oauth1", |b| b.iter(test_other_crate));
+    group.finish();
 }
 
 fn test_this_crate() {

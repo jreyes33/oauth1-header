@@ -11,6 +11,9 @@ authors = ["Jonathan Reyes <j@jreyes.org>"]
 keywords = ["oauth1", "oauth", "authorization", "header"]
 categories = ["authentication", "web-programming"]
 
+[lib]
+bench = false
+
 [dependencies]
 base64 = "0.12.0"
 hmac = "0.7.1"
@@ -21,3 +24,8 @@ sha-1 = "0.8.2"
 
 [dev-dependencies]
 oauth1 = "1.0.0"
+criterion = "0.3.1"
+
+[[bench]]
+name = "bench"
+harness = false
