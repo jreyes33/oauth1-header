@@ -25,6 +25,9 @@
 
 #![warn(missing_docs)]
 
+#[allow(missing_docs)]
+pub mod ffi;
+
 use hmac::{Hmac, Mac};
 pub use http;
 use http::Method;
